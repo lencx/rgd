@@ -1,0 +1,17 @@
+{
+  "name": "rgd",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "source": "./src/index.ts",
+  "repository": "git@github.com:lencx/rgd.git",
+  "author": "lencx <cxin1314@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "microbundle watch",
+    "build": "microbundle build"
+  },
+  "devDependencies": {
+    "microbundle": "^0.13.3"
+  }
+}
