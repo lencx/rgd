@@ -23,3 +23,11 @@ Options:
   --site-link: defalut `/`
   --site-desc: defalut `GitHub Discussions`
 ```
+
+## Usage
+
+- [Show GitHub Discussions on your GitHub profile/project readme](https://dev.to/lencx/show-github-discussions-on-your-github-profile-project-readme-5gac)
+
+## License
+
+MIT License © 2021 [lencx](https://github.com/lencx)
