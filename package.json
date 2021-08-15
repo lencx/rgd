@@ -1,6 +1,6 @@
 {
   "name": "rgd",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:lencx/rgd.git",
   "author": "lencx <cxin1314@gmail.com>",
@@ -12,6 +12,7 @@
     "api",
     "rss",
     "rgd",
+    "json",
     "discussions"
   ],
   "dependencies": {

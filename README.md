@@ -1,6 +1,6 @@
 # rgd
 
-> RSS - GitHub Discussions API
+> GitHub Discussions API - RSS & JSON
 
 ```bash
 npm install -g rgd
@@ -13,15 +13,18 @@ npm install -D rgd
 Usage: rgd
 
 Options:
-  --owner
-  --repo
-  --token: generate token -> https://github.com/settings/tokens/new
-  --limit: if not set, all are requested by default, value is number, no more than 100.
-  --outdir: default `.`
-  --filename: default `feed.xml`
+  --owner:      github username
+  --repo:       github repository
+  --mode:       api generates json files, rss files, etc. default `rss`
+                example: `--mode=json,rss`
+  --jsonfmt:    beautify json, default `false`
+  --token:      generate token -> https://github.com/settings/tokens/new
+  --limit:      if not set, all are requested by default, value is number, no more than 100
+  --outdir:     output file root directory, default `.`
+  --filename:   rss file name, default `feed.xml`
   --site-title: default `RSS`
-  --site-link: defalut `/`
-  --site-desc: defalut `GitHub Discussions`
+  --site-link:  defalut `/`
+  --site-desc:  defalut `GitHub Discussions`
 ```
 
 ## Usage
