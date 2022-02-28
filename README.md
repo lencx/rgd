@@ -18,6 +18,7 @@ Options:
   --mode:       api generates json files, rss files, etc. default `rss`
                 example: `--mode=json,rss`
   --jsonfmt:    beautify json, default `false`
+  --jsontype:   `md` or `html`, default `html`
   --token:      generate token -> https://github.com/settings/tokens/new
   --limit:      if not set, all are requested by default, value is number, no more than 100
   --outdir:     output file root directory, default `.`

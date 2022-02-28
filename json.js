@@ -4,9 +4,10 @@ const argv = require('minimist')(process.argv.slice(2));
 
 const { graphqlClient } = require('./utils');
 
-const { owner, repo, jsonfmt } = argv;
+const { owner, repo, jsonfmt, jsontype } = argv;
 
 const fmt = jsonfmt === 'true' ? 2 : 0;
+const dataType = jsontype === 'md' ? 'body' : 'bodyHTML';
 
 module.exports = async function genJson(totalCount) {
   const limit = 100;
@@ -84,7 +85,7 @@ async function fetchIssuesData(number) {
         discussion(number: $number) {
           id
           title
-          bodyHTML
+          ${dataType}
           category {
             name
           }
@@ -109,7 +110,7 @@ async function fetchIssuesData(number) {
             edges {
               node {
                 id
-                bodyHTML
+                ${dataType}
                 author {
                   login
                   avatarUrl
@@ -124,7 +125,7 @@ async function fetchIssuesData(number) {
                         avatarUrl
                         url
                       }
-                      bodyHTML
+                      ${dataType}
                     }
                   }
                 }

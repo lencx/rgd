@@ -28,6 +28,7 @@ options:
   ${g`--mode`}:       api generates json files, rss files, etc. default ${y`rss`}
                 example: ${y`--mode=json,rss`}
   ${g`--jsonfmt`}:    beautify json, default ${y`false`}
+  ${g`--jsontype`}:   \`md\` or \`html\`, default ${y`html`}
   ${g`--token`}:      generate token -> https://github.com/settings/tokens/new
   ${g`--limit`}:      if not set, all are requested by default, value is number, no more than 100
   ${g`--outdir`}:     output file root directory, default \`${y`.`}\`
