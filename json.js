@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const argv = require('minimist')(process.argv.slice(2));
+const chalk = require('chalk');
 
 const { graphqlClient } = require('./utils');
 
@@ -23,16 +24,19 @@ module.exports = async function genJson(totalCount) {
   const outdir = argv.outdir || '.';
 
   fs.mkdirSync(path.resolve(outdir, 'issues'), { recursive: true });
+
+  fs.writeFile(path.resolve(outdir, 'discussions.json'), JSON.stringify(list, null, fmt), function(err) {
+    if (err) console.error(err);
+  });
+
   list.forEach(async ({ node }) => {
     if (!node) return;
     const issuesData = await fetchIssuesData(node.number);
     fs.writeFile(path.resolve(outdir, `issues/${node.number}.json`), JSON.stringify(issuesData, null, fmt), function(err) {
-      if (err) console.error(err);
+      if (err) return console.error(err);
+      console.log(chalk.green`[#${node.number}]`, chalk.yellow`${issuesData.title}`);
     });
   });
-
-  fs.writeFileSync(path.resolve(outdir, 'discussions.json'), JSON.stringify(list, null, fmt));
-  console.log('✨ JSON Done!');
 }
 
 async function fetchJsonData(lastCursor) {
@@ -53,7 +57,9 @@ async function fetchJsonData(lastCursor) {
               }
               category {
                 name
-                emojiHTML
+                emoji
+                description
+                isAnswerable
               }
               labels(first: 100) {
                 edges {
@@ -85,15 +91,20 @@ async function fetchIssuesData(number) {
         discussion(number: $number) {
           id
           title
+          upvoteCount
           ${dataType}
           category {
             name
+            emoji
+            description
+            isAnswerable
           }
           labels(first: 100) {
             edges {
               node {
                 id
                 name
+                color
               }
             }
           }
@@ -111,6 +122,7 @@ async function fetchIssuesData(number) {
               node {
                 id
                 ${dataType}
+                upvoteCount
                 author {
                   login
                   avatarUrl
