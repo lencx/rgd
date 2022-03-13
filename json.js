@@ -91,6 +91,7 @@ async function fetchIssuesData(number) {
         discussion(number: $number) {
           id
           title
+          number
           upvoteCount
           ${dataType}
           category {
