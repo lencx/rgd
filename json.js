@@ -93,7 +93,13 @@ async function fetchIssuesData(number) {
           title
           number
           upvoteCount
+          updatedAt
           ${dataType}
+          author {
+            login
+            avatarUrl
+            url
+          }
           category {
             name
             emoji
@@ -124,6 +130,7 @@ async function fetchIssuesData(number) {
                 id
                 ${dataType}
                 upvoteCount
+                updatedAt
                 author {
                   login
                   avatarUrl
