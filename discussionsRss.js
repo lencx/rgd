@@ -7,7 +7,7 @@ const { graphqlClient } = require('./utils');
 
 const { owner, repo } = argv;
 
-module.exports = async function genRss(totalCount, repoLink) {
+module.exports = async function genDiscussionsRss(totalCount, repoLink) {
   let limit = 20;
   let list = [];
   let last = null;
