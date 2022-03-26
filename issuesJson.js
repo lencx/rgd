@@ -90,6 +90,7 @@ async function fetchIssuesJsonData(lastCursor) {
                     id
                     name
                     color
+                    description
                   }
                 }
               }
@@ -128,6 +129,7 @@ async function fetchIssueData(number, type) {
                 id
                 name
                 color
+                description
               }
             }
           }

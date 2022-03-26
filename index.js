@@ -22,10 +22,10 @@ async function init() {
     process.exit();
   }
 
-  // if (!owner || !repo || !token) {
-  //   console.log('\n', chalk.red('required: `owner`, `repo`, `token`'));
-  //   process.exit();
-  // }
+  if (!(owner || argv['issues-owner']) || !(repo || argv['issues-repo']) || !token) {
+    console.log('\n', chalk.red('required: `owner or issues-owner`, `repo or issues-repo`, `token`'));
+    process.exit();
+  }
 
   const repoLink = `https://github.com/${owner}/${repo}`;
   let discussionsTotalCount = 0;

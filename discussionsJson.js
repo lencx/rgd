@@ -93,6 +93,7 @@ async function fetchDiscussionsJsonData(lastCursor) {
                     id
                     name
                     color
+                    description
                   }
                 }
               }
@@ -138,6 +139,7 @@ async function fetchDiscussionData(number, type) {
                 id
                 name
                 color
+                description
               }
             }
           }
