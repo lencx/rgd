@@ -4,7 +4,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const chalk = require('chalk');
 const yaml = require('js-yaml');
 
-const { graphqlClient } = require('./utils');
+const { graphqlClient, fmtJsonKey } = require('./utils');
 const { fetchDiscussionsJsonData, fetchDiscussionData } = require('./discussionsJson');
 
 const { owner, repo, jsonfmt, jsontype } = argv;
@@ -30,7 +30,8 @@ module.exports = async function genIssuesJson(issuesTotal, discussionsTotal) {
           const rgdYml = await fetchDiscussionData(_node.number, 'body');
           const _config = rgdYml.body.replace(/(```ya?ml)|(```)/g, '');
           const _json = yaml.load(_config, 'utf8');
-          fs.writeFile(path.resolve(outdir, `rgd.json`), JSON.stringify(_json, null, fmt), function(err) {
+          const _fmtJson = fmtJsonKey(_json);
+          fs.writeFile(path.resolve(outdir, `rgd.json`), JSON.stringify(_fmtJson, null, fmt), function(err) {
             if (err) return console.error(err);
             console.log(chalk.green`rgd.json`);
           });

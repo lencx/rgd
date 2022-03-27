@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 const { graphql } = require("@octokit/graphql");
 const argv = require('minimist')(process.argv.slice(2));
+const _ = require('lodash');
 
 const { owner, repo, token } = argv;
 const g = chalk.green;
@@ -17,6 +18,7 @@ module.exports = {
   cmdHelp,
   getDiscussionsTotal,
   getIssuesTotal,
+  fmtJsonKey,
 };
 
 function cmdHelp() {
@@ -73,4 +75,19 @@ async function getIssuesTotal() {
   });
 
   return _data.repository.issues.totalCount;
+}
+
+function fmtJsonKey(data) {
+  _.mixin({
+    deeply: function (map) {
+        return function(obj, fn) {
+            return map(_.mapValues(obj, function (v) {
+                return _.isPlainObject(v) ? _.deeply(map)(v, fn) : v;
+            }), fn);
+        }
+    },
+  });
+  return _.deeply(_.mapKeys)(data, function (_, key) {
+    return key.replace(/-/g, '_');
+  });
 }

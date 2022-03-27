@@ -4,7 +4,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const chalk = require('chalk');
 const yaml = require('js-yaml');
 
-const { graphqlClient } = require('./utils');
+const { graphqlClient, fmtJsonKey } = require('./utils');
 
 const { owner, repo, jsonfmt, jsontype } = argv;
 
@@ -30,7 +30,8 @@ async function genDiscussionsJson(totalCount) {
         const rgdYml = await fetchDiscussionData(_node.number, 'body');
         const _config = rgdYml.body.replace(/(```ya?ml)|(```)/g, '');
         const _json = yaml.load(_config, 'utf8');
-        fs.writeFile(path.resolve(outdir, `rgd.json`), JSON.stringify(_json, null, fmt), function(err) {
+        const _fmtJson = fmtJsonKey(_json);
+        fs.writeFile(path.resolve(outdir, `rgd.json`), JSON.stringify(_fmtJson, null, fmt), function(err) {
           if (err) return console.error(err);
           console.log(chalk.green`rgd.json`);
         });
@@ -50,7 +51,7 @@ async function genDiscussionsJson(totalCount) {
 
   fs.mkdirSync(path.resolve(outdir, 'issues'), { recursive: true });
 
-  fs.writeFile(path.resolve(outdir, 'discussions.json'), JSON.stringify(list, null, fmt), function(err) {
+  fs.writeFile(path.resolve(outdir, 'discussions.json'), JSON.stringify(list, null, fmt), (err) => {
     if (err) console.error(err);
     console.log(chalk.green`discussions.json`);
   });
@@ -58,7 +59,7 @@ async function genDiscussionsJson(totalCount) {
   list.forEach(async ({ node }) => {
     if (!node) return;
     const issuesData = await fetchDiscussionData(node.number);
-    fs.writeFile(path.resolve(outdir, `issues/${node.number}.json`), JSON.stringify(issuesData, null, fmt), function(err) {
+    fs.writeFile(path.resolve(outdir, `issues/${node.number}.json`), JSON.stringify(issuesData, null, fmt), (err) => {
       if (err) return console.error(err);
       console.log(chalk.green`[#${node.number}]`, chalk.yellow`${issuesData.title}`);
     });
