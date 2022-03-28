@@ -45,7 +45,6 @@ module.exports = async function genIssuesJson(issuesTotal, discussionsTotal) {
     }
   }
 
-
   // issues list
   for (let i = 0; i < Math.ceil(issuesTotal / limit); i++) {
     const temp = await fetchIssuesJsonData(last);
@@ -79,6 +78,8 @@ async function fetchIssuesJsonData(lastCursor) {
             node {
               title
               number
+              state
+              createdAt
               updatedAt
               author {
                 login
@@ -117,6 +118,8 @@ async function fetchIssueData(number, type) {
           id
           title
           number
+          state
+          createdAt
           updatedAt
           ${type || dataType}
           author {
@@ -153,6 +156,15 @@ async function fetchIssueData(number, type) {
                   login
                   avatarUrl
                   url
+                }
+                reactions(first: 100) {
+                  totalCount
+                  edges {
+                    node {
+                      id
+                      content
+                    }
+                  }
                 }
               }
             }

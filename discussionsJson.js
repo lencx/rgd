@@ -76,6 +76,7 @@ async function fetchDiscussionsJsonData(lastCursor) {
             node {
               title
               number
+              createdAt
               updatedAt
               author {
                 login
@@ -121,6 +122,7 @@ async function fetchDiscussionData(number, type) {
           title
           number
           upvoteCount
+          createdAt
           updatedAt
           ${type || dataType}
           author {
@@ -164,6 +166,15 @@ async function fetchDiscussionData(number, type) {
                   login
                   avatarUrl
                   url
+                }
+                reactions(first: 100) {
+                  totalCount
+                  edges {
+                    node {
+                      id
+                      content
+                    }
+                  }
                 }
                 replies(first: 100) {
                   edges {
