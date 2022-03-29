@@ -3,6 +3,7 @@ const path = require('path');
 const argv = require('minimist')(process.argv.slice(2));
 const chalk = require('chalk');
 const yaml = require('js-yaml');
+const includes = require('lodash/includes');
 
 const { graphqlClient, fmtJsonKey } = require('./utils');
 const { fetchDiscussionsJsonData, fetchDiscussionData } = require('./discussionsJson');
@@ -11,6 +12,12 @@ const { owner, repo, jsonfmt, jsontype } = argv;
 
 const fmt = jsonfmt === 'true' ? 2 : 0;
 const dataType = jsontype === 'md' ? 'body' : 'bodyHTML';
+const ISSUES_STATE = ['CLOSED', 'OPEN'];
+const state = (argv['issues-state'] || '')?.toLocaleUpperCase();
+let filterList = '';
+if (state && includes(ISSUES_STATE, state)) {
+  filterList = `filterBy: { states: [${state}]}, `;
+}
 
 module.exports = async function genIssuesJson(issuesTotal, discussionsTotal) {
   const limit = 100;
@@ -72,7 +79,7 @@ async function fetchIssuesJsonData(lastCursor) {
   const { repository } = await graphqlClient(`
     query ($owner: String!, $repo: String!, $cursor: String) {
       repository(owner: $owner, name: $repo) {
-        issues(first: 100, after: $cursor) {
+        issues(${filterList}first: 100, after: $cursor) {
           edges {
             cursor
             node {

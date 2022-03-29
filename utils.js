@@ -30,6 +30,7 @@ options:
   ${g`--repo`}:           github repository
   ${g`--issues-owner`}:   github username(issues)
   ${g`--issues-repo`}:    github repository(issues)
+  ${g`--issues-state`}:   github issues states (issues), \`OPEN\` or \`CLOSED\`, by default no filtering
   ${g`--mode`}:           api generates json files, rss files, etc. default ${y`rss`}
                     example: ${y`--mode=json,rss`}
   ${g`--jsonfmt`}:        beautify json, default ${y`false`}

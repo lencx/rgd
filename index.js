@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const chalk = require('chalk');
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -26,6 +27,8 @@ async function init() {
     console.log('\n', chalk.red('required: `owner or issues-owner`, `repo or issues-repo`, `token`'));
     process.exit();
   }
+
+  fs.rmSync(argv.outdir, { recursive: true, force: true });
 
   const repoLink = `https://github.com/${owner}/${repo}`;
   let discussionsTotalCount = 0;
