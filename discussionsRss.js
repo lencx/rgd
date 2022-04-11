@@ -3,9 +3,9 @@ const path = require('path');
 const dayjs = require('dayjs');
 const argv = require('minimist')(process.argv.slice(2));
 
-const { graphqlClient } = require('./utils');
+const { graphqlClient, fmtArgs } = require('./utils');
 
-const { owner, repo } = argv;
+const { owner, repo } = fmtArgs();
 
 module.exports = async function genDiscussionsRss(totalCount, repoLink) {
   let limit = 20;

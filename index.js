@@ -8,14 +8,14 @@ const genDiscussionsRss = require('./discussionsRss');
 const genIssuesRss = require('./issuesRss');
 const genIssuesJson = require('./issuesJson');
 const { genDiscussionsJson } = require('./discussionsJson');
-const { getDiscussionsTotal, getIssuesTotal, cmdHelp } = require('./utils');
+const { getDiscussionsTotal, getIssuesTotal, cmdHelp, fmtArgs } = require('./utils');
 
 // owner: github uername
 // repo: github repo
 // type: discussions | issues, default is `discussions`
 // jsontype: true | false, beautify json, default `false`
 // jsontype: md | html, default is `html`
-const { owner, repo, type, token, mode } = argv;
+const { owner, repo, type, token, mode } = fmtArgs();
 
 async function init() {
   if (argv.h || argv.help) {

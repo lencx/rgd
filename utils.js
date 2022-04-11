@@ -3,9 +3,10 @@ const { graphql } = require("@octokit/graphql");
 const argv = require('minimist')(process.argv.slice(2));
 const _ = require('lodash');
 
-const { owner, repo, token } = argv;
 const g = chalk.green;
 const y = chalk.yellow;
+
+const { owner, repo, token } = fmtArgs();
 
 const graphqlClient = graphql.defaults({
   headers: {
@@ -19,6 +20,7 @@ module.exports = {
   getDiscussionsTotal,
   getIssuesTotal,
   fmtJsonKey,
+  fmtArgs,
 };
 
 function cmdHelp() {
@@ -91,4 +93,10 @@ function fmtJsonKey(data) {
   return _.deeply(_.mapKeys)(data, function (_, key) {
     return key.replace(/-/g, '_');
   });
+}
+
+function fmtArgs() {
+  const { owner, repo, repository = '', token, ...rest } = argv;
+  const a = repository?.split('/');
+  return { owner: a[0] || owner, repo: a[1] || repo, token, ...rest };
 }

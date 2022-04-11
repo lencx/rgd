@@ -5,10 +5,10 @@ const chalk = require('chalk');
 const yaml = require('js-yaml');
 const includes = require('lodash/includes');
 
-const { graphqlClient, fmtJsonKey } = require('./utils');
+const { graphqlClient, fmtJsonKey, fmtArgs } = require('./utils');
 const { fetchDiscussionsJsonData, fetchDiscussionData } = require('./discussionsJson');
 
-const { owner, repo, jsonfmt, jsontype } = argv;
+const { owner, repo, jsonfmt, jsontype } = fmtArgs();
 
 const fmt = jsonfmt === 'true' ? 2 : 0;
 const dataType = jsontype === 'md' ? 'body' : 'bodyHTML';
