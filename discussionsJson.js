@@ -66,7 +66,7 @@ async function genDiscussionsJson(totalCount) {
   });
 }
 
-async function fetchDiscussionsJsonData(lastCursor) {
+async function fetchDiscussionsJsonData(lastCursor, _owner = owner, _repo = repo) {
   const { repository } = await graphqlClient(`
     query ($owner: String!, $repo: String!, $cursor: String) {
       repository(owner: $owner, name: $repo) {
@@ -105,15 +105,15 @@ async function fetchDiscussionsJsonData(lastCursor) {
       }
     }
   `, {
-    owner,
-    repo,
+    owner: _owner,
+    repo: _repo,
     cursor: lastCursor,
   });
 
   return repository.discussions.edges;
 }
 
-async function fetchDiscussionData(number, type) {
+async function fetchDiscussionData(number, type, _owner = owner, _repo = repo) {
   const { repository } = await graphqlClient(`
     query ($owner: String!, $repo: String!, $number: Int!) {
       repository(owner: $owner, name: $repo) {
@@ -196,8 +196,8 @@ async function fetchDiscussionData(number, type) {
       }
     }
   `, {
-    owner,
-    repo,
+    owner: _owner,
+    repo: _repo,
     number,
   });
 

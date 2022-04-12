@@ -7,12 +7,13 @@ const argv = require('minimist')(process.argv.slice(2));
 const genDiscussionsRss = require('./discussionsRss');
 const genIssuesRss = require('./issuesRss');
 const genIssuesJson = require('./issuesJson');
+const genDisJson = require('./disJson');
 const { genDiscussionsJson } = require('./discussionsJson');
 const { getDiscussionsTotal, getIssuesTotal, cmdHelp, fmtArgs } = require('./utils');
 
 // owner: github uername
 // repo: github repo
-// type: discussions | issues, default is `discussions`
+// type: discussions | discussions2 | issues, default is `discussions`
 // jsontype: true | false, beautify json, default `false`
 // jsontype: md | html, default is `html`
 const { owner, repo, type, token, mode } = fmtArgs();
@@ -23,8 +24,8 @@ async function init() {
     process.exit();
   }
 
-  if (!(owner || argv['issues-owner']) || !(repo || argv['issues-repo']) || !token) {
-    console.log('\n', chalk.red('required: `owner or issues-owner`, `repo or issues-repo`, `token`'));
+  if (!owner || !repo || !token) {
+    console.log('\n', chalk.red('required: `owner`, `repo`, `token`'));
     process.exit();
   }
 
@@ -40,10 +41,29 @@ async function init() {
   console.log();
 
   if (type === 'issues') {
+    if (!argv['issues-owner'] || !argv['issues-repo']) {
+      console.log(chalk.red('required: `owner`, `repo`, `issues-owner`, `issues-repo`, `token`'));
+      process.exit();
+    }
     const issuesTotalCount = await getIssuesTotal();
     if (/rss|json/.test(_mode.join(','))) {
       if (_mode.includes('rss')) genIssuesRss(issuesTotalCount, repoLink);
       if (_mode.includes('json')) genIssuesJson(issuesTotalCount, discussionsTotalCount);
+    } else {
+      console.log(chalk.red`mode is invalid. example: ${chalk.green`--mode: json,rss`}`);
+    }
+    return;
+  }
+
+  if (type === 'discussions2') {
+    if (!argv['dis-owner'] || !argv['dis-repo']) {
+      console.log(chalk.red('required: `owner`, `repo`, `dis-owner`, `dis-repo`, `token`'));
+      process.exit();
+    }
+    const issuesTotalCount = await getDiscussionsTotal(argv['dis-owner'], argv['dis-repo']);
+    if (/rss|json/.test(_mode.join(','))) {
+      if (_mode.includes('rss')) genDiscussionsRss(issuesTotalCount, repoLink, argv['dis-owner'], argv['dis-repo']);
+      if (_mode.includes('json')) genDisJson(issuesTotalCount, discussionsTotalCount);
     } else {
       console.log(chalk.red`mode is invalid. example: ${chalk.green`--mode: json,rss`}`);
     }

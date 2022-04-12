@@ -15,8 +15,12 @@ Usage: rgd
 Options:
   --owner:            github username
   --repo:             github repository
-  --issues-owner:     github username(issues)
-  --issues-repo:      github repository(issues)
+  --type:             discussions | discussions2 | issues, default is `discussions`
+  --issues-owner:     github username(issues) - data owner
+  --issues-repo:      github repository(issues) - data repo
+  --dis-owner:        github username(discussions2) - data owner
+  --dis-repo:         github repository(discussions2) - data repo
+  --issues-state:     github issues states (issues), `OPEN` or `CLOSED`, by default no filtering
   --mode:             api generates json files, rss files, etc. default `rss`
                       example: `--mode=json,rss`
   --jsonfmt:          beautify json, default `false`

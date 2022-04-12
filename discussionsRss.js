@@ -7,20 +7,20 @@ const { graphqlClient, fmtArgs } = require('./utils');
 
 const { owner, repo } = fmtArgs();
 
-module.exports = async function genDiscussionsRss(totalCount, repoLink) {
+module.exports = async function genDiscussionsRss(totalCount, repoLink, _owner = owner, _repo = repo) {
   let limit = 20;
   let list = [];
   let last = null;
 
   if (!argv.limit) {
     for (let i = 0; i < Math.ceil(totalCount / limit); i++) {
-      const temp = await fetchRssData(limit, last);
+      const temp = await fetchRssData(limit, last, _owner, _repo);
       last = Array.from(temp).pop().cursor;
       list = [...list, ...temp];
     }
   } else {
     limit = +argv.limit;
-    const temp = await fetchRssData(limit, null);
+    const temp = await fetchRssData(limit, null, _owner, _repo);
     list = temp;
   }
 
@@ -68,7 +68,7 @@ function feedXML({ siteTitle, siteLink, siteDesc, filename, postItems }) {
 </rss>`;
 }
 
-async function fetchRssData(size, lastCursor) {
+async function fetchRssData(size, lastCursor, _owner = owner, _repo = repo) {
   const { repository } = await graphqlClient(`
     query ($owner: String!, $repo: String!, $limit: Int!, $cursor: String) {
       repository(owner: $owner, name: $repo) {
@@ -86,8 +86,8 @@ async function fetchRssData(size, lastCursor) {
       }
     }
   `, {
-    owner,
-    repo,
+    owner: _owner,
+    repo: _repo,
     limit: size,
     cursor: lastCursor,
   });

@@ -30,8 +30,11 @@ usage: ${g`rgd`}
 options:
   ${g`--owner`}:          github username
   ${g`--repo`}:           github repository
-  ${g`--issues-owner`}:   github username(issues)
-  ${g`--issues-repo`}:    github repository(issues)
+  ${g`--type`}:           discussions | discussions2 | issues, default is \`discussions\`
+  ${g`--issues-owner`}:   github username(issues) - data owner
+  ${g`--issues-repo`}:    github repository(issues) - data repo
+  ${g`--dis-owner`}:      github username(discussions2) - data owner
+  ${g`--dis-repo`}:       github repository(discussions2) - data repo
   ${g`--issues-state`}:   github issues states (issues), \`OPEN\` or \`CLOSED\`, by default no filtering
   ${g`--mode`}:           api generates json files, rss files, etc. default ${y`rss`}
                     example: ${y`--mode=json,rss`}
@@ -46,7 +49,7 @@ options:
   ${g`--site-desc`}:      defalut ${y`GitHub Discussions`}`);
 }
 
-async function getDiscussionsTotal() {
+async function getDiscussionsTotal(_owner = owner, _repo = repo) {
   const _data = await graphqlClient(`
     query ($owner: String!, $repo: String!) {
       repository(owner: $owner, name: $repo) {
@@ -56,8 +59,8 @@ async function getDiscussionsTotal() {
       }
     }
   `, {
-    owner,
-    repo,
+    owner: _owner,
+    repo: _repo,
   });
 
   return _data.repository.discussions.totalCount;
