@@ -1,6 +1,6 @@
 {
   "name": "rgd",
-  "version": "2.0.6",
+  "version": "2.1.0",
   "main": "index.js",
   "repository": "git@github.com:lencx/rgd.git",
   "author": "lencx <cxin1314@gmail.com>",
